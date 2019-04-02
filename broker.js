@@ -1,6 +1,6 @@
 const mosca = require('mosca')
 const settings = {
-  port: 1883
+  port:  process.env.PORT || 1883
 }
 
 const server = new mosca.Server(settings)
