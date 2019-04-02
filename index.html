@@ -15,8 +15,8 @@
 
     <script src="./mqtt"></script>
     <script>
-      
-      var client = mqtt.connect("wss://areve-beetle.herokuapp.com");
+      console.log(document.location.protocol)
+      var client = mqtt.connect((document.location.protocol === 'http:' ? 'ws' : 'wss')  + "://" + document.location.hostname);
       client.subscribe("log");
 
       client.on("message", function(topic, message) {
