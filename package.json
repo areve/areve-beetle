@@ -1,0 +1,20 @@
+{
+  "name": "areve-beetle",
+  "version": "1.0.0",
+  "main": "broker.js",
+  "repository": "https://github.com/areve/areve-beetle.git",
+  "license": "MIT",
+  "dependencies": {
+    "mosca": "^2.8.3",
+    "mqtt": "^2.18.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "scripts": {
+    "start": "node broker.js",
+    "start-dev": "nodemon broker.js",
+    "subscriber-dev": "nodemon subscriber.js",
+    "publisher-dev": "nodemon publisher.js"
+  }
+}
