@@ -1,5 +1,5 @@
 const mqtt = require('mqtt')
-const client = mqtt.connect('wx://localhost')
+const client = mqtt.connect('wss://areve-beetle.herokuapp.com')
 client.on('connect', () => {
   setInterval(() => {
     const message = new Date().toISOString()
