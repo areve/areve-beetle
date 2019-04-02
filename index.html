@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>test Ws mqtt.js</title>
+</head>
+<body>
+    
+<ul id="log">
+</ul>
+<script src="./mqtt"></script>
+<script>
+  var client = mqtt.connect()
+  client.subscribe("log")
+
+  client.on("message", function (topic, message) {
+    context = message.toString()
+    console.log(topic, context)
+    var entry = document.createElement('li')
+    entry.innerText = [topic, context].join(': ')
+    document.getElementById('log').appendChild(entry)
+    window.scrollTo(0,document.body.scrollHeight)
+  })
+</script>
+</body>
+</html>

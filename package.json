@@ -5,6 +5,7 @@
   "repository": "https://github.com/areve/areve-beetle.git",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.16.4",
     "mosca": "^2.8.3",
     "mqtt": "^2.18.8"
   },
