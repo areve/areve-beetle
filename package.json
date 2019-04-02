@@ -5,6 +5,7 @@
   "repository": "https://github.com/areve/areve-beetle.git",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mosca": "^2.8.3",
     "mqtt": "^2.18.8"
@@ -14,7 +15,7 @@
   },
   "scripts": {
     "start": "node broker.js",
-    "start-dev": "nodemon broker.js",
+    "dev": "nodemon broker.js",
     "subscriber-dev": "nodemon subscriber.js",
     "publisher-dev": "nodemon publisher.js"
   }
