@@ -5,7 +5,7 @@ const mosca = require("mosca");
 const bodyParser = require("body-parser");
 
 const jsonParser = bodyParser.json({ type: "application/json" });
-const textParser = bodyParser.json({ type: "text/plain" });
+const textParser = bodyParser.text({ type: "text/plain" });
 const indexHtml = path.join(__dirname, "index.html");
 const browserMqttJs = path.join(__dirname, "browserMqtt.js");
 
@@ -29,7 +29,7 @@ const app = express()
   .post(/^\/log$/, textParser, (req, res) => {
     mqttServer.publish({
       topic: 'log',
-      payload: new Buffer(res.body),
+      payload: new Buffer(req.body),
       qos: 1 // this is important for offline messaging
     }, null, function done() {})
     res.send('ok');
