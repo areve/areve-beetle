@@ -53,7 +53,7 @@ mqttServer.on('clientConnected', function(client) {
   console.log('client connected', client.id);
 });
 mqttServer.on('published', function(packet, client) {
-  console.log('from', client.id, [packet.topic, packet.payload]);
+  console.log('from', client && client.id, [packet.topic, packet.payload]);
 });
 mqttServer.on('ready', function(packet, client) {
   console.log('mqtt ready');
@@ -66,6 +66,12 @@ io.on('connection', function (socket) {
   socket.onevent = (...args) => {
     console.log('from', socket.id, args[0].data)
     socket.broadcast.emit(...args[0].data)
+    mqttServer.publish({
+      topic: 'log',
+      payload: new Buffer(args[0].data[1]),
+      qos: 0 
+    }, null, function done() {})
+
     onevent.apply(socket, args)
   }
   socket.on('disconnect', () => {

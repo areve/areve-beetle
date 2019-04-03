@@ -1,6 +1,14 @@
 <html>
   <head>
     <title>test Ws mqtt.js</title>
+    <style type="text/css">
+    #log {
+      width: 95%;
+      height: 400px;
+      overflow: auto;
+      border: 1px solid burlywood;
+    }
+    </style>
   </head>
   <body>
     <h2>Data</h2>
@@ -16,7 +24,7 @@
     <script src="./mqtt"></script>
     <script>
       console.log(document.location.protocol)
-      var client = mqtt.connect((document.location.protocol === 'http:' ? 'ws' : 'wss')  + "://" + document.location.hostname);
+      var client = mqtt.connect((document.location.protocol === 'http:' ? 'ws' : 'wss')  + "://" + document.location.hostname + "/mqtt");
       client.subscribe("log");
 
       client.on("message", function(topic, message) {
@@ -24,8 +32,13 @@
         console.log(topic, context);
         var entry = document.createElement("li");
         entry.innerText = [topic, context].join(": ");
-        document.getElementById("log").appendChild(entry);
-        window.scrollTo(0, document.body.scrollHeight);
+        var log = document.getElementById("log")
+        var entries = log.getElementsByTagName('li');
+        if (entries.length >= 1000) {
+          document.getElementById("log").removeChild(entries[0])
+        }
+        log.appendChild(entry);
+        log.scrollTo(0, log.scrollHeight);
       });
 
       load();

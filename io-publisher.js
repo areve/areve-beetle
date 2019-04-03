@@ -17,8 +17,8 @@ socket.on('connect', function(){
     console.log('sent', message)
   }, 1000)
 });
-socket.on('event', function(data){
-  console.log('event', data)
+socket.on('log', function(data){
+  console.log('log', data)
 });
 socket.on('disconnect', function(){
   console.log('disconnect')
