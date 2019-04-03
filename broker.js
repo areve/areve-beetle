@@ -47,5 +47,14 @@ const app = express()
 
 const server = http.createServer(app);
 const mqttServer = new mosca.Server({});
-mqttServer.attachHttpServer(server);
+mqttServer.attachHttpServer(server, '/mqtt');
+mqttServer.on('clientConnected', function(client) {
+  console.log('client connected', client.id);
+});
+mqttServer.on('published', function(packet, client) {
+  console.log('Published', packet.payload);
+});
+mqttServer.on('ready', function(packet, client) {
+  console.log('Ready');
+});
 server.listen(process.env.PORT || 80);

@@ -16,7 +16,7 @@
   "scripts": {
     "start": "node broker.js",
     "dev": "nodemon broker.js",
-    "subscriber-dev": "nodemon subscriber.js",
-    "publisher-dev": "nodemon publisher.js"
+    "mqtt-subscriber": "nodemon mqtt-subscriber.js",
+    "mqtt-publisher": "nodemon mqtt-publisher.js"
   }
 }
