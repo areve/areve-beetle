@@ -3,7 +3,6 @@ const http = require("http");
 const express = require("express");
 const mosca = require("mosca");
 const bodyParser = require("body-parser");
-const socketIO = require('socket.io');
 
 const jsonParser = bodyParser.json({ type: "application/json" });
 const textParser = bodyParser.text({ type: "text/plain" });
@@ -58,27 +57,6 @@ mqttServer.on('published', function(packet, client) {
 mqttServer.on('ready', function(packet, client) {
   console.log('mqtt ready');
 });
-
-const io = socketIO(server)
-io.on('connection', function (socket) {
-  console.log('client connected', socket.id)
-  const onevent = socket.onevent
-  socket.onevent = (...args) => {
-    console.log('from', socket.id, args[0].data)
-    socket.broadcast.emit(...args[0].data)
-    mqttServer.publish({
-      topic: 'log',
-      payload: new Buffer(args[0].data[1]),
-      qos: 0 
-    }, null, function done() {})
-
-    onevent.apply(socket, args)
-  }
-  socket.on('disconnect', () => {
-    console.log('client disconnected', socket.id)
-  })
-})
-console.log('socket.io ready')
 
 server.listen(process.env.PORT || 80)
 

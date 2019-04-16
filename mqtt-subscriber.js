@@ -1,5 +1,5 @@
 const mqtt = require('mqtt')
-const client = mqtt.connect('ws://localhost/mqtt')
+const client = mqtt.connect('wss://areve-beetle.herokuapp.com/mqtt')
 client.on('connect', () => {
   client.subscribe('log')
 })
