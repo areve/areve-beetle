@@ -9,11 +9,11 @@ client.on('connect', () => {
       }, 10000)
 
     setInterval(() => {
-      const number1 = ~~(Math.random() * 100)
-      const number2 = ~~(Math.random() * 100)
-      client.publish('line1', 'hello ' + number1)
-      client.publish('line2', 'world ' + number2)
-      const trueOrFalse = ~~(Math.random() * 2)
+      const number1 = ~~(Math.random() * 10)
+      const number2 = ~~(Math.random() * 10)
+      client.publish('line1', 'hello ' + ("+".repeat(number1)))
+      client.publish('line2', 'world ' + ("+".repeat(number2)))
+      const trueOrFalse = !!~~(Math.random() * 2)
       client.publish('backlight', trueOrFalse ? 'on': 'off')
       }, 2000)
   }
