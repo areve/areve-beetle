@@ -1,25 +1,51 @@
 <html>
   <head>
-    <title>test Ws mqtt.js</title>
+    <title>beetle</title>
     <style type="text/css">
+    
     #log {
-      width: 95%;
-      height: 400px;
+      height: 10em;
       overflow: auto;
-      border: 1px solid burlywood;
+      font-family:  monospace;
     }
+    
+    .visual {
+      padding: 20px;
+      margin: 0 auto;
+    }
+
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/picnic">
   </head>
   <body>
-    <h2>Data</h2>
-    <textarea id="data" style="width:100%;height:300px">
-
-    </textarea>
-    <button type="button" onclick="load()">Load</button>
-    <button type="button" onclick="save()">Save</button>
-
-    <h2>Log</h2>
-    <ul id="log"></ul>
+    
+    <main class="visual">
+      <div class="flex one two-800">
+        <div class="content">
+          <div class="card">
+            <section>
+              <label>Line 1</label>
+              <input type="text" value="Hello" id="line1" onkeyup="line1Change()" />
+            </section>
+            <section>
+              <label>Line 2</label>
+              <input type="text" value="World" id="line2" onkeyup="line2Change()" />
+            </section>
+            <section>
+              <label>
+                <input type="checkbox" id="backlight" aria-hidden="true"  onclick="backlightChange()">
+                <span class="checkable">Backlight</span>
+              </label>
+              </section>
+            <footer></footer>
+          </div>
+        </div>
+        <div class="content">
+          <div class="card" id="log">
+          </div>
+        </div>
+      </div>
+    </main>
 
     <script src="./mqtt"></script>
     <script>
@@ -30,10 +56,10 @@
       client.on("message", function(topic, message) {
         context = message.toString();
         console.log(topic, context);
-        var entry = document.createElement("li");
+        var entry = document.createElement("div");
         entry.innerText = [topic, context].join(": ");
         var log = document.getElementById("log")
-        var entries = log.getElementsByTagName('li');
+        var entries = log.getElementsByTagName('div');
         if (entries.length >= 1000) {
           document.getElementById("log").removeChild(entries[0])
         }
@@ -41,27 +67,27 @@
         log.scrollTo(0, log.scrollHeight);
       });
 
-      load();
-      function load() {
-        var xhr = new XMLHttpRequest();
-        xhr.addEventListener("load", function() {
-          var data = JSON.parse(xhr.responseText)
-          document.getElementById('data').value = JSON.stringify(data, null, '  ')
-        });
-        xhr.open('GET', '/data', true);
-        xhr.send();
+      function line1Change() {
+        var line1 = document.getElementById('line1').value;
+        line1 = (line1 + '                ').substring(0, 16);
+        console.log(line1);
+        client.publish("log", "line1: " + line1);
+        client.publish("line1", line1);
       }
-      function save() {
-        var data = JSON.parse(document.getElementById('data').value)
-
-        var xhr = new XMLHttpRequest();
-        xhr.addEventListener("load", function() {
-          var data = JSON.parse(xhr.responseText)
-          document.getElementById('data').value = JSON.stringify(data, null, '  ')
-        });
-        xhr.open('POST', '/data', true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(JSON.stringify(data));      
+      
+      function line2Change() {
+        var line2 = document.getElementById('line2').value;
+        line2 = (line2 + '                ').substring(0, 16);
+        console.log(line2);
+        client.publish("log", "line2: " + line2);
+        client.publish("line2", line2);
+      }
+      
+      function backlightChange() {
+        var backlight = document.getElementById('backlight').checked ? 'on' : 'off';
+        console.log(backlight);
+        client.publish("backlight", "backlight: " + backlight);
+        client.publish("backlight", backlight);
       }
     </script>
   </body>
